@@ -24,7 +24,7 @@ def init_cookie_jar(addon_id):
 
 
 def add_dir(addon_handle, base_url, name, url, mode, icon_image='DefaultFolder.png', thumbnail='DefaultFolder.png', is_folder=True, background=None):
-    u = base_url + '?' + urllib.urlencode({'url': urllib.quote(url, safe=''), 'mode': str(mode), 'name': urllib.quote(name, safe='')})
+    u = base_url + '?' + urllib.urlencode({'url': urllib.quote(url, safe=''), 'mode': str(mode), 'name': urllib.quote(name.encode('utf-8'), safe='')})
 
     liz = xbmcgui.ListItem(unicode(name), iconImage=icon_image, thumbnailImage=thumbnail)
 
