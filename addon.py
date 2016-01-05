@@ -88,7 +88,14 @@ def episode():
 
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
-    script = soup.find('div', {'id': 'block-gec-videos-videopage-videos'}).find('script')
+    div = soup.find('div', {'id': 'block-gec-videos-videopage-videos'})
+
+    script = None
+    scripts = div.findAll('script')
+    for s in scripts:
+        if 'babyenjoying' in s.text:
+            script = s
+            break
 
     master_m3u8 = script.text.split('babyenjoying = ', 2)[2].split(';')[0][1:-1]
 
