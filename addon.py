@@ -14,31 +14,6 @@ def main_index():
 def current_shows():
     url = h.extract_var(args, 'url')
 
-    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
-
-    # XXX: If want sorted
-    # import operator
-    # shows = {}
-    # shows[a_attrs['href']] = a_attrs['title']
-    # shows = sorted(shows.items(), key=operator.itemgetter(1))
-
-    # XXX: View mode thumbnail supported in xbmcswift2
-
-    h2 = soup.findAll('ul')
-
-    for h2 in soup.findAll('ul'):
-#        if h2.text == 'Shows':
-
-            for li in h2.findAll('li'):
-                a = li.find('a')
-                a_attrs = dict(a.attrs)
-                title = '%s (%s)' % (h.bs_find_with_class(a, 'title').text)
-                img_src = dict(a.find('img').attrs)['src']
-                h.add_dir(addon_handle, base_url, title, '%s/video/' % a_attrs['href'], 'show', img_src, img_src)
-            break
-        
-    url = h.extract_var(args, 'url')
-
     url = '%s%s' % (ZEEMARATHI_REFERRER, url)
 
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
@@ -64,7 +39,6 @@ def current_shows():
                 h.add_dir(addon_handle, base_url, 'Next >>', next_url, 'show')
 
 
-
     url = h.extract_var(args, 'url')
 
     name = h.extract_var(args, 'name')
@@ -88,6 +62,21 @@ def current_shows():
     h.add_dir_video(addon_handle, name, master_m3u8, thumbnail, plot)
 
 
+
+def archive_shows():
+    url = h.extract_var(args, 'url')
+
+    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+
+    h2 = soup.findAll('h2')
+
+    for h2 in soup.findAll('h2'):
+        if h2.text == 'Archive Shows':
+            for div in h.bs_find_all_with_class(h2.nextSibling, 'div', 'archive-show'):
+                a = div.find('a')
+                a_attrs = dict(a.attrs)
+                h.add_dir(addon_handle, base_url, a_attrs['title'], '%s/video/' % a_attrs['href'], 'show')
+            break
 
 
 def show():
