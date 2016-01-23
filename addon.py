@@ -109,7 +109,7 @@ def not_implemented():
     pass
 
 ZEEMARATHI_REFERRER = 'http://www.zeemarathi.com'
-SHOWS_URL = '%s/shows/' % ZEEMARATHI_REFERRER
+SHOWS_URL = '%s/videos/' % ZEEMARATHI_REFERRER
 
 addon_id = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 cookie_file, cookie_jar = h.init_cookie_jar(addon_id)
