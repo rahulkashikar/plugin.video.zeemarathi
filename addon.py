@@ -24,15 +24,15 @@ def current_shows():
 
     # XXX: View mode thumbnail supported in xbmcswift2
 
-#    h2 = soup.findAll('h2')
+    h2 = soup.findAll('ul')
 
-#    for h2 in soup.findAll('h2'):
+    for h2 in soup.findAll('ul'):
 #        if h2.text == 'Shows':
 
-            for li in h2.nextSibling.find('ul').findAll('li'):
+            for li in h2.findAll('li'):
                 a = li.find('a')
                 a_attrs = dict(a.attrs)
-                title = '%s (%s)' % (h.bs_find_with_class(a, 'div', 'zc-show-title').text, h.bs_find_with_class(a, 'div', 'zc-air-time').text)
+                title = '%s (%s)' % (h.bs_find_with_class(a, 'title').text)
                 img_src = dict(a.find('img').attrs)['src']
                 h.add_dir(addon_handle, base_url, title, '%s/video/' % a_attrs['href'], 'show', img_src, img_src)
             break
