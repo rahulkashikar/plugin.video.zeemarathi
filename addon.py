@@ -24,10 +24,62 @@ def current_shows():
 
     # XXX: View mode thumbnail supported in xbmcswift2
 
-    h2 = soup.findAll('h2')
+#    h2 = soup.findAll('h2')
 
-    for h2 in soup.findAll('h2'):
-        if h2.text == 'Shows':
+#    for h2 in soup.findAll('h2'):
+#        if h2.text == 'Shows':
+    url = h.extract_var(args, 'url')
+
+    url = '%s%s' % (ZEEMARATHI_REFERRER, url)
+
+    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+
+    ul = soup.find('ul', {'class': lambda x: x and 'show-videos-list' in x.split()})
+    for li in ul:
+        div = li.find('div', {'class': lambda x: x and 'video-watch' in x.split()})
+        episode_url = div.find('a')['href']
+        name = li.find('div', {'class': 'video-episode'}).text
+        img_src = 'DefaultFolder.png'
+        img = li.find('img')
+        if img:
+            img_src = img['src']
+
+        h.add_dir(addon_handle, base_url, name, episode_url, 'episode', img_src, img_src)
+
+    pager = soup.find('ul', {'class': lambda x: x and 'pager' in x.split()})
+    if pager:
+        next_link = pager.find('li', {'class': lambda x: x and 'pager-next' in x.split()})
+        if next_link:
+            next_url = next_link.find('a')['href']
+            if next_url:
+                h.add_dir(addon_handle, base_url, 'Next >>', next_url, 'show')
+
+
+
+    url = h.extract_var(args, 'url')
+
+    name = h.extract_var(args, 'name')
+
+    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+
+    div = soup.find('div', {'id': 'block-gec-videos-videopage-videos'})
+
+    script = None
+    scripts = div.findAll('script')
+    for s in scripts:
+        if 'babyenjoying' in s.text:
+            script = s
+            break
+
+    master_m3u8 = script.text.split('babyenjoying = ', 2)[2].split(';')[0][1:-1]
+
+    plot = soup.find('p', {'itemprop': 'description'}).text
+    thumbnail = soup.find('meta', {'itemprop': 'thumbnailUrl'})['content']
+
+    h.add_dir_video(addon_handle, name, master_m3u8, thumbnail, plot)
+
+
+
             for li in h2.nextSibling.find('ul').findAll('li'):
                 a = li.find('a')
                 a_attrs = dict(a.attrs)
@@ -35,23 +87,6 @@ def current_shows():
                 img_src = dict(a.find('img').attrs)['src']
                 h.add_dir(addon_handle, base_url, title, '%s/video/' % a_attrs['href'], 'show', img_src, img_src)
             break
-
-
-def archive_shows():
-    url = h.extract_var(args, 'url')
-
-    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
-
-    h2 = soup.findAll('h2')
-
-    for h2 in soup.findAll('h2'):
-        if h2.text == 'Archive Shows':
-            for div in h.bs_find_all_with_class(h2.nextSibling, 'div', 'archive-show'):
-                a = div.find('a')
-                a_attrs = dict(a.attrs)
-                h.add_dir(addon_handle, base_url, a_attrs['title'], '%s/video/' % a_attrs['href'], 'show')
-            break
-
 
 def show():
     url = h.extract_var(args, 'url')
