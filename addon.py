@@ -28,6 +28,15 @@ def current_shows():
 
 #    for h2 in soup.findAll('h2'):
 #        if h2.text == 'Shows':
+
+            for li in h2.nextSibling.find('ul').findAll('li'):
+                a = li.find('a')
+                a_attrs = dict(a.attrs)
+                title = '%s (%s)' % (h.bs_find_with_class(a, 'div', 'zc-show-title').text, h.bs_find_with_class(a, 'div', 'zc-air-time').text)
+                img_src = dict(a.find('img').attrs)['src']
+                h.add_dir(addon_handle, base_url, title, '%s/video/' % a_attrs['href'], 'show', img_src, img_src)
+            break
+        
     url = h.extract_var(args, 'url')
 
     url = '%s%s' % (ZEEMARATHI_REFERRER, url)
@@ -80,13 +89,6 @@ def current_shows():
 
 
 
-            for li in h2.nextSibling.find('ul').findAll('li'):
-                a = li.find('a')
-                a_attrs = dict(a.attrs)
-                title = '%s (%s)' % (h.bs_find_with_class(a, 'div', 'zc-show-title').text, h.bs_find_with_class(a, 'div', 'zc-air-time').text)
-                img_src = dict(a.find('img').attrs)['src']
-                h.add_dir(addon_handle, base_url, title, '%s/video/' % a_attrs['href'], 'show', img_src, img_src)
-            break
 
 def show():
     url = h.extract_var(args, 'url')
