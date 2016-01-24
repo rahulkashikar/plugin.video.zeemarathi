@@ -20,7 +20,6 @@ def latest_shows():
     h2 = soup.findAll('ul')
 
     for h2 in soup.findAll('ul'):
-        #if h2.text == 'Shows':
             for li in h2.findAll('li'):
                 a = li.find('a')
                 a_attrs = dict(a.attrs)
@@ -28,7 +27,7 @@ def latest_shows():
                 img_src = dict(a.find('img').attrs)['src']
                 url=dict(a.attrs)['href']
                 h.add_dir(addon_handle, base_url, title, url, 'show', img_src, img_src)
-            #break
+            break
 
 
 def current_shows():
