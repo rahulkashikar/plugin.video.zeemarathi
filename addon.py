@@ -17,15 +17,28 @@ def latest_shows():
 
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
-    # XXX: If want sorted
-    # import operator
-    # shows = {}
-    # shows[a_attrs['href']] = a_attrs['title']
-    # shows = sorted(shows.items(), key=operator.itemgetter(1))
-
-    # XXX: View mode thumbnail supported in xbmcswift2
-
     h2 = soup.findAll('ul')
+
+   ul = soup.find('ul', {'class': lambda x: x and 'show-videos-list' in x.split()})
+    for li in ul:
+        div = li.find('div', {'class': lambda x: x and 'video-watch' in x.split()})
+        episode_url = div.find('a')['href']
+        name = li.find('div', {'class': 'video-episode'}).text
+        img_src = 'DefaultFolder.png'
+        img = li.find('img')
+        if img:
+            img_src = img['src']
+
+        h.add_dir(addon_handle, base_url, name, episode_url, 'episode', img_src, img_src)
+
+    pager = soup.find('ul', {'class': lambda x: x and 'pager' in x.split()})
+    if pager:
+        next_link = pager.find('li', {'class': lambda x: x and 'pager-next' in x.split()})
+        if next_link:
+            next_url = next_link.find('a')['href']
+            if next_url:
+                h.add_dir(addon_handle, base_url, 'Next >>', next_url, 'show')
+
 
     for h2 in soup.findAll('ul'):
         #if h2.text == 'Shows':
@@ -35,7 +48,7 @@ def latest_shows():
                 title = '%s (%s)' % (h.bs_find_with_class(a, 'div', 'title').text, h.bs_find_with_class(a, 'div', 'episode').text)
                 img_src = dict(a.find('img').attrs)['src']
                 h.add_dir(addon_handle, base_url, title, '%s/video/' % a_attrs['href'], 'show', img_src, img_src)
-            break
+            
 
 
 def current_shows():
