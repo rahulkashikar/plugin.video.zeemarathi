@@ -19,7 +19,8 @@ def latest_shows():
 
     h2 = soup.findAll('ul')
 
-   ul = soup.find('ul', {'class': lambda x: x and 'show-videos-list' in x.split()})
+    ul = soup.find('ul', {'class': lambda x: x and 'show-videos-list' in x.split()})
+    ul = soup.findAll('ul')
     for li in ul:
         div = li.find('div', {'class': lambda x: x and 'video-watch' in x.split()})
         episode_url = div.find('a')['href']
