@@ -145,13 +145,13 @@ addon_handle = int(sys.argv[1])
 args = urlparse.parse_qs(sys.argv[2][1:])
 mode = args.get('mode', ['', ])[0]
 
-if mode == 'CurrentShows':
+if mode == 'episode':
     current_shows()
 elif mode == 'ArchiveShows':
     archive_shows()
 elif mode == 'show':
     show()
-elif mode == 'episode':
+elif mode == 'CurrentShows':
     episode()
 elif mode == 'not_implemented':
     not_implemented()
