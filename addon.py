@@ -21,12 +21,13 @@ def latest_shows():
 
     for h2 in soup.findAll('ul'):
         #if h2.text == 'Shows':
-            for li in h2.nextSibling.findAll('li'):
+            for li in h2.findAll('li'):
                 a = li.find('a')
                 a_attrs = dict(a.attrs)
                 title = dict(a.attrs)['title']
                 img_src = dict(a.find('img').attrs)['src']
-                h.add_dir(addon_handle, base_url, title, '%s/' % a_attrs['href'], 'show', img_src, img_src)
+                url=dict(a.attrs)['href']
+                h.add_dir(addon_handle, base_url, title, url, 'show', img_src, img_src)
             #break
 
 
