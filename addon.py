@@ -1,4 +1,3 @@
-
 from BeautifulSoup import BeautifulSoup
 import os.path
 import sys
@@ -8,26 +7,8 @@ from resources.lib import helpers as h
 
 
 def main_index():
-    h.add_dir(addon_handle, base_url, 'Latest Shows', SHOWS_URL, 'LatestShows')
     h.add_dir(addon_handle, base_url, 'Current Shows', SHOWS_URL, 'CurrentShows')
     h.add_dir(addon_handle, base_url, 'Archive Shows', SHOWS_URL, 'ArchiveShows')
-
-def latest_shows():
-    url = h.extract_var(args, 'url')
-
-    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
-
-    h2 = soup.findAll('ul')
-
-    for h2 in soup.findAll('ul'):
-            for li in h2.findAll('li'):
-                a = li.find('a')
-                a_attrs = dict(a.attrs)
-                title = dict(a.attrs)['title']
-                img_src = dict(a.find('img').attrs)['src']
-                url=dict(a.attrs)['href']
-                h.add_dir(addon_handle, base_url, title, url, 'show', img_src, img_src)
-            break
 
 
 def current_shows():
@@ -128,7 +109,7 @@ def not_implemented():
     pass
 
 ZEEMARATHI_REFERRER = 'http://www.zeemarathi.com'
-SHOWS_URL = '%s/video/' % ZEEMARATHI_REFERRER
+SHOWS_URL = '%s/shows/' % ZEEMARATHI_REFERRER
 
 addon_id = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 cookie_file, cookie_jar = h.init_cookie_jar(addon_id)
@@ -148,8 +129,6 @@ elif mode == 'episode':
     episode()
 elif mode == 'not_implemented':
     not_implemented()
-elif mode == 'LatestShows':
-    latest_shows()
 else:
     main_index()
 
