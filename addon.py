@@ -7,8 +7,44 @@ from resources.lib import helpers as h
 
 
 def main_index():
+    h.add_dir(addon_handle, base_url, 'Todays  Shows', SHOWS_URL, 'TodaysShows')
     h.add_dir(addon_handle, base_url, 'Current Shows', SHOWS_URL, 'CurrentShows')
     h.add_dir(addon_handle, base_url, 'Archive Shows', SHOWS_URL, 'ArchiveShows')
+
+
+def todays_show():
+    url = h.extract_var(args, 'url')
+
+    url = '%s%s' % (ZEEMARATHI_REFERRER, url)
+
+    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+
+    ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
+    for li in ul:
+        #div = li.find('div', {'class': lambda x: x and 'video-watch' in x.split()})
+        a = li.find('a')
+        a_attrs = dict(a.attrs)
+        episode_url = a_attrs['href']
+        name = a_attrs['title']
+        img_src = dict(a.find('img').attrs)['src']
+        #episode_url = li.find('a')['href']
+        #name = li.find('a')['title'].text
+        #img_src = 'DefaultFolder.png'
+        img = li.find('img')
+        if img:
+            img_src = img['src']
+
+        h.add_dir(addon_handle, base_url, name, episode_url, 'episode', img_src, img_src)
+
+    pager = soup.find('ul', {'class': lambda x: x and 'pager' in x.split()})
+    if pager:
+        next_link = pager.find('li', {'class': lambda x: x and 'pager-next' in x.split()})
+        if next_link:
+            next_url = next_link.find('a')['href']
+            if next_url:
+                h.add_dir(addon_handle, base_url, 'Next >>', next_url, 'show')
+
+
 
 
 def current_shows():
@@ -109,7 +145,7 @@ def not_implemented():
     pass
 
 ZEEMARATHI_REFERRER = 'http://www.zeemarathi.com'
-SHOWS_URL = '%s/shows/' % ZEEMARATHI_REFERRER
+SHOWS_URL = '%s/videos/' % ZEEMARATHI_REFERRER
 
 addon_id = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 cookie_file, cookie_jar = h.init_cookie_jar(addon_id)
