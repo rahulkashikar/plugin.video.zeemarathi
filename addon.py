@@ -15,7 +15,7 @@ def main_index():
 def todays_show():
     url = h.extract_var(args, 'url')
 
-    url = '%s%s' % (ZEEMARATHI_REFERRER, url)
+    url = '%s%s' % (ZEEMARATHI_REFERRER, SHOWS_URL)
 
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
