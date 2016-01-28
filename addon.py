@@ -21,32 +21,17 @@ def todays_show():
 
     ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
     for li in ul.find(li):
-        #div = li.find('div', {'class': lambda x: x and 'video-watch' in x.split()})
         a = li.find('a')
         a_attrs = dict(a.attrs)
         episode_url = a_attrs['href']
         name = a_attrs['title']
         img_src = dict(a.find('img').attrs)['src']
-        #episode_url = li.find('a')['href']
-        #name = li.find('a')['title'].text
-        #img_src = 'DefaultFolder.png'
         img = li.find('img')
         if img:
             img_src = img['src']
-
         h.add_dir(addon_handle, base_url, name, episode_url, 'episode', img_src, img_src)
-
-    pager = soup.find('ul', {'class': lambda x: x and 'pager' in x.split()})
-    if pager:
-        next_link = pager.find('li', {'class': lambda x: x and 'pager-next' in x.split()})
-        if next_link:
-            next_url = next_link.find('a')['href']
-            if next_url:
-                h.add_dir(addon_handle, base_url, 'Next >>', next_url, 'show')
-
-
-
-
+        break
+    
 def current_shows():
     url = h.extract_var(args, 'url')
 
