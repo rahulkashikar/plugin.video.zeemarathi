@@ -20,9 +20,7 @@ def todays_show():
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
     ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
-    for ul in soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()}):
-        for li in ul.nextSibling.findAll('li'):
-
+    for li in ul.findAll(li):
         #div = li.find('div', {'class': lambda x: x and 'video-watch' in x.split()})
         a = li.find('a')
         a_attrs = dict(a.attrs)
