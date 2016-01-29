@@ -142,6 +142,8 @@ if mode == 'CurrentShows':
     current_shows()
 elif mode == 'ArchiveShows':
     archive_shows()
+elif mode == 'TodaysShows':
+    todays_shows()
 elif mode == 'show':
     show()
 elif mode == 'episode':
