@@ -20,7 +20,7 @@ def todays_show():
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
     ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
-    for li in ul.find(li):
+    for li in ul.findAll(li):
         a = li.find('a')
         a_attrs = dict(a.attrs)
         episode_url = a_attrs['href']
