@@ -27,7 +27,8 @@ def todays_show():
             img_src = a.find('img')['src']
             img = li.find('img')
             h.add_dir(addon_handle, base_url, name, episode_url, 'episode', img_src, img_src)
-    break
+        
+        break
     
 def current_shows():
     url = h.extract_var(args, 'url')
