@@ -20,14 +20,13 @@ def todays_show():
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
     ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
-    for li in ul.findAll(li):
-        for a in findAll('li'):
-            episode_url = a['href']
-            name = a['title']
-            img_src = a.find('img')['src']
-            img = li.find('img')
-            h.add_dir(addon_handle, base_url, name, episode_url, 'episode', img_src, img_src)
-        
+    for li in ul.findAll('li'):
+        a = li.find('a')
+        a_attrs = dict(a.attrs)
+        episode_url = a_attrs['href']
+        title = a_attrs['title']
+        img_src = dict(a.find('img').attrs)['src']
+        h.add_dir(addon_handle, base_url, title, episode_url, 'episode', img_src, img_src)
         
     
 def current_shows():
