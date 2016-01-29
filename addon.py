@@ -18,8 +18,10 @@ def todays_show():
     url = '%s' % SHOWS_URL
 
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+    episode_url = 'http://www.zeemarathi.com/shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html'
+    title = 'Asmitaaaaaaaaaaa'
 
-    h.add_dir(addon_handle, base_url, '_Today_Shows_Asmita', 'http://www.zeemarathi.com/shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html', 'episode', img_src, img_src)
+    h.add_dir(addon_handle, base_url, title, episode_url, 'showsssssss')
     
     #ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
     #for li in ul.findAll('li'):
