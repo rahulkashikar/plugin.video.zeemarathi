@@ -21,11 +21,9 @@ def todays_show():
 
     ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
     for li in ul.findAll('li'):
-        a = li.find('a')
-        a_attrs = dict(a.attrs)
-        episode_url = a_attrs['href']
-        title = a_attrs['title']
-        img_src = dict(a.find('img').attrs)['src']
+        episode_url = li.find('a')['href']
+        title = li.find('a')['title']
+        img_src = li.find('a').find('img')['src']
         h.add_dir(addon_handle, base_url, title, episode_url, 'episode', img_src, img_src)
         
     
