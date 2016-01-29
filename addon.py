@@ -19,12 +19,14 @@ def todays_show():
 
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
-    ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
-    for li in ul.findAll('li'):
-        episode_url = li.find('a')['href']
-        title = li.find('a')['title']
-        img_src = li.find('a').find('img')['src']
-        h.add_dir(addon_handle, base_url, title, episode_url, 'episode', img_src, img_src)
+    h.add_dir(addon_handle, base_url, '_Today_Shows_Asmita', 'http://www.zeemarathi.com/shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html', 'episode', img_src, img_src)
+    
+    #ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
+    #for li in ul.findAll('li'):
+    #    episode_url = li.find('a')['href']
+    #    title = li.find('a')['title']
+    #    img_src = li.find('a').find('img')['src']
+    #    h.add_dir(addon_handle, base_url, title, episode_url, 'episode', img_src, img_src)
         
     
 def current_shows():
