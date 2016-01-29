@@ -13,7 +13,7 @@ def main_index():
 
 
 def todays_show():
-    url = h.extract_var(args, 'url')
+    #url = h.extract_var(args, 'url')
 
     #url = '%s' % SHOWS_URL
 
@@ -21,7 +21,7 @@ def todays_show():
     episode_url = 'shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html'
     title = 'Asmitaaaaaaaaaaa'
 
-    h.add_dir(addon_handle, base_url, title, episode_url, 'episode')
+    h.add_dir(addon_handle, base_url, 'Asmitaaaaaaaaaaa', 'http://www.zeemarathi.com/shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html', 'episode')
     
     #ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
     #for li in ul.findAll('li'):
