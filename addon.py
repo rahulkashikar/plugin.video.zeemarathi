@@ -25,7 +25,25 @@ def todays_show():
 def todays_episode():    
     url = h.extract_var(args, 'url')
 
+    name = h.extract_var(args, 'name')
+
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+
+    div = soup.find('div', {'id': 'block-gec-videos-videopage-videos'})
+
+    script = None
+    scripts = div.findAll('script')
+    for s in scripts:
+        if 'babyenjoying' in s.text:
+            script = s
+            break
+
+    master_m3u8 = script.text.split('babyenjoying = ', 2)[2].split(';')[0][1:-1]
+
+    plot = soup.find('p', {'itemprop': 'description'}).text
+    thumbnail = soup.find('meta', {'itemprop': 'thumbnailUrl'})['content']
+
+    h.add_dir_video(addon_handle, name, master_m3u8, thumbnail, plot)
 
     
 def current_shows():
