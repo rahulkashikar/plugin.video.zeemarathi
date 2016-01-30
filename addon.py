@@ -15,19 +15,18 @@ def main_index():
 def todays_show():
     url = h.extract_var(args, 'url')
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+    ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
+    for li in ul.findAll('li'):
+        episode_url = li.find('a')['href']
+        title = li.find('a')['title']
+        img_src = li.find('a').find('img')['src']
+        h.add_dir(addon_handle, base_url, title, episode_url, 'todays_episode', img_src, img_src)
 
-    episode_url = 'shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html'
-    title = 'Asmitaaaaaaaaaaa'
+def todays_episode():    
+    url = h.extract_var(args, 'url')
 
-    h.add_dir(addon_handle, base_url, 'Asmitaaaaaaaaaaa', 'shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html', 'show')
-    
-    #ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
-    #for li in ul.findAll('li'):
-    #    episode_url = li.find('a')['href']
-    #    title = li.find('a')['title']
-    #    img_src = li.find('a').find('img')['src']
-    #    h.add_dir(addon_handle, base_url, title, episode_url, 'episode', img_src, img_src)
-        
+    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
+
     
 def current_shows():
     url = h.extract_var(args, 'url')
@@ -134,6 +133,8 @@ elif mode == 'ArchiveShows':
     archive_shows()
 elif mode == 'TodaysShows':
     todays_shows()
+elif mode == 'TodaysEpisode':
+    todays_episode()
 elif mode == 'show':
     show()
 elif mode == 'episode':
