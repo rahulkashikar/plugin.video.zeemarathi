@@ -16,7 +16,7 @@ def todays_show():
     url = h.extract_var(args, 'url')
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
     ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
-    for li in ul.findAll('li'):
+    for li in ul.nextSibling.findAll('li'):
         episode_url = li.find('a')['href']
         title = li.find('a')['title']
         img_src = li.find('a').find('img')['src']
