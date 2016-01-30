@@ -13,15 +13,13 @@ def main_index():
 
 
 def todays_show():
-    #url = h.extract_var(args, 'url')
+    url = h.extract_var(args, 'url')
+    soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
 
-    #url = '%s' % SHOWS_URL
-
-    #soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
     episode_url = 'shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html'
     title = 'Asmitaaaaaaaaaaa'
 
-    h.add_dir(addon_handle, base_url, 'Asmitaaaaaaaaaaa', 'shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html', 'episode')
+    h.add_dir(addon_handle, base_url, 'Asmitaaaaaaaaaaa', 'shows/asmita/video/asmita-episode-325-january-29-2016-full-episode.html', 'show')
     
     #ul = soup.find('ul', {'class': lambda x: x and 'videos-list' in x.split()})
     #for li in ul.findAll('li'):
@@ -35,15 +33,6 @@ def current_shows():
     url = h.extract_var(args, 'url')
 
     soup = BeautifulSoup(h.make_request(url, cookie_file, cookie_jar))
-
-    # XXX: If want sorted
-    # import operator
-    # shows = {}
-    # shows[a_attrs['href']] = a_attrs['title']
-    # shows = sorted(shows.items(), key=operator.itemgetter(1))
-
-    # XXX: View mode thumbnail supported in xbmcswift2
-
     h2 = soup.findAll('h2')
 
     for h2 in soup.findAll('h2'):
